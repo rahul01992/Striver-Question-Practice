@@ -1,0 +1,23 @@
+int slargest(int n,vector<int> a){
+    int largest=1;
+  int secondLargest=-1;
+  for(int i=1;i<n;i++){
+      if(a[i]>largest){
+        secondLargest=largest ;
+        largest=a[i]; 
+      }
+      else if(arr[i]<largest && arr[i]>secondLargest){
+          secondLargest=arr[i];
+      }
+      return secondLargest;
+    
+}
+vector<int> getSecondOrderElements(int n, vector<int> a) {
+  
+    int slargest=find1(n,a);
+    int ssmallest=find2(n,a);
+    return {slargest,ssmallest};
+     
+
+          
+}
