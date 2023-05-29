@@ -1,0 +1,22 @@
+#include <iostream>
+#include<vector>
+#include <bits/stdc++.h>
+using namespace std;
+int find(vector<int>& arr,int n){
+    sort(arr.begin(),arr.end());
+    int largest=arr[n-1];
+    for(int i=n-1;i>=0;i--){
+        if(arr[i]!=largest){
+            largest=arr[i];
+            break;
+        }
+    }
+    return largest;
+
+}
+int main(){
+    vector<int> arr={6,2,9,9,10,10,11,3};
+    cout<<find(arr,8);
+
+return 0;
+}
