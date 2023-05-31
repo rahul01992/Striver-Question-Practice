@@ -1,0 +1,35 @@
+#include<set>
+#include<vector>
+vector < int > sortedArray(vector < int > a, vector < int > b)  {
+  int n=a.size();
+  int m=b.size();
+  vector<int>v;
+  int i=0,j=0;
+  while(i<n && j<m){
+    if(a[i]<=b[j]){
+      if(v.back()!=a[i]|| v.size()==0){
+        v.push_back(a[i]);
+      }
+      i++;
+    }
+    else{
+      if(v.back()!=b[j]|| v.size()==0){
+        v.push_back(b[j]);
+      }
+      j++;
+    }
+  }
+  while(i<n){
+      if(v.back()!=a[i]|| v.size()==0){
+        v.push_back(a[i]);
+      }
+      i++;
+    }
+  while(j<m){
+    if(v.back()!=b[j]|| v.size()==0){
+        v.push_back(b[j]);
+      }
+      j++;
+  }
+  return v;
+}
