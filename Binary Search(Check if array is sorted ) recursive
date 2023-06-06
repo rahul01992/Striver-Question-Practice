@@ -1,0 +1,9 @@
+bool arraySortedOrNot(int arr[], int n) {
+        if(n==0|| n==1){// Condition for sorted
+            return 1;
+        }
+        if(arr[0]>arr[1]){//Condition for Unsorted
+            return 0;
+        }
+        return arraySortedOrNot(arr+1,n-1);
+    }
