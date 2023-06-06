@@ -1,0 +1,37 @@
+int searchInsert(vector<int>& arr, int m)
+{
+	int low=0,high=arr.size()-1;
+	int n=arr.size();
+	bool check=false;
+	while(low<=high){
+		int mid=(low+high)/2;
+		if(arr[mid]==m){
+			check=true;
+			return mid;
+		}
+		else if(arr[mid]<m){
+			low=mid+1;
+		}
+		else{
+			high=mid-1;
+		}
+	}
+	if(check==false){//element not found
+	if(m<arr[high] && m>=arr[low]){
+		arr.insert(arr.begin()+high,1,m);
+		return high+1;
+	}
+	else if(low==0  && arr[low]>=m){
+		arr.insert(arr.begin(),1,m);
+		return low;
+	}
+	else if(high==n-1 && arr[high]<=m){
+		arr.push_back(m);
+		return high+1;
+	}
+	else if(arr[high]<m && arr[low]>m){
+			arr.insert(arr.begin()+(high),1,m);
+			return high+1;
+		}
+	}
+}
