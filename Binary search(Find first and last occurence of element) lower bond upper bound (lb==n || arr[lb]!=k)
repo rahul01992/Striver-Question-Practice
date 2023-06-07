@@ -1,0 +1,11 @@
+#include<vector>
+#include <algorithm>
+pair<int, int> firstAndLastPosition(vector<int>& arr, int n, int k)
+{
+    int lb=lower_bound(arr.begin(),arr.end(),k)-arr.begin();
+    if(lb==n || arr[lb]!=k){//PLEASE BE CAREFULL WITH THESE TWO CONDITIONS
+        return {-1,-1};
+    }
+    int ub=upper_bound(arr.begin(),arr.end(),k)-arr.begin();
+    return { lb,ub-1};
+}
