@@ -1,0 +1,32 @@
+#include<map>
+int countNodesinLoop(struct Node *head)
+{
+    if(head==NULL){
+        return 0;
+    }
+    if(head->next==NULL){
+        return 0;
+    }
+    struct Node* temp=head;
+    map<struct Node*,bool>visited;
+    struct Node* start=NULL;
+    while(temp!=NULL){
+        if(visited[temp]==true){
+            start=temp;
+            break;
+        }
+        visited[temp]=true;
+        temp=temp->next;
+    }
+    if(temp==NULL){
+        return 0;
+    }
+    struct Node* nex=start->next;
+    int len=0;
+    while(nex!=start){
+        len++;
+        nex=nex->next;
+    }
+    return len+1;
+    
+}
