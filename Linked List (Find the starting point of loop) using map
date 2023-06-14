@@ -1,0 +1,20 @@
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        map<ListNode*,bool>visited;
+        ListNode* temp=head;
+        ListNode* ans=NULL;
+        while(temp!=NULL){
+            if(visited[temp]==true){
+                ans= temp;
+                break;
+            }
+            visited[temp]=true;
+            temp=temp->next;
+        }
+        if(temp==NULL){
+            return NULL;
+        }
+        return ans;
+    }  
+};
