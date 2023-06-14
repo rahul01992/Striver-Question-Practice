@@ -1,0 +1,29 @@
+Node *firstNode(Node *head){
+//Fast and slow pointer method
+if(head==NULL){
+    return NULL;
+}
+if(head->next==NULL){
+    return NULL;
+}
+Node* fast=head;
+Node* slow=head;
+//Node* ans=NULL;
+while(fast!=NULL && fast->next!=NULL){
+    slow=slow->next;
+    fast=fast->next->next;
+    if(fast==slow){
+        break;
+    }
+}
+if(fast==NULL || fast->next==NULL){
+    return NULL;
+}
+Node* entry=head;
+while(entry!=slow)
+{ 
+    entry=entry->next;
+    slow=slow->next; 
+}
+return entry;
+}
