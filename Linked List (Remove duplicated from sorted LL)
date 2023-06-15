@@ -1,0 +1,19 @@
+ListNode* deleteDuplicates(ListNode* head) {
+        if(head==NULL || head->next==NULL){
+            return head;
+        }
+        ListNode* temp=head;
+        while(temp->next!=NULL){
+            if(temp->val!=temp->next->val){
+                temp=temp->next;
+            }
+            else{
+                ListNode* forward=temp->next;
+                temp->next=forward->next;
+                forward->next=NULL;
+                delete forward;
+            }
+        }
+        return head;
+        
+    }
