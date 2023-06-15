@@ -1,0 +1,16 @@
+ bool isPalindrome(int x) {
+        long long ans=0;
+        int dup=x;
+        while(x>0){
+            int id=x%10;
+            ans=(10*ans)+id;
+            x=x/10;
+        }
+        if(ans==dup){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+        
+    }
