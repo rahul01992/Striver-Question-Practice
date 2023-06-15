@@ -1,0 +1,10 @@
+ int reverse(int x) {
+         long long ans=0;
+         while(abs(x)>0){
+             int id=x%10;
+             ans=(ans*10)+id;
+             x=x/10;
+
+         }
+         return ans;
+     }
