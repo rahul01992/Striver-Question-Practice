@@ -1,0 +1,22 @@
+int lengthOfLongestConsecutiveSequence(vector<int> &a, int n) {
+    if(a.size()==0){
+            return 0;
+        }
+        sort(a.begin(),a.end());
+        int prevEle=INT_MIN;//can be take 0 exept in case (0,0,1,2,3,4,5,6)
+        int longest=1;
+        int cnt=0;
+        for(int i=0;i<a.size();i++){
+            if(a[i]-1==prevEle){
+                cnt++;
+                prevEle=a[i];
+            }
+            if(a[i]!=prevEle){
+                cnt=1;
+                prevEle=a[i];
+            }
+            longest=max(longest,cnt);
+        }
+        
+        return longest;
+    }
