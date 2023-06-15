@@ -1,0 +1,26 @@
+
+Node* curr=head;
+Node* prev=curr;
+Node* forward=curr->next;
+while(curr->next!=NULL){
+    while(forward!=NULL){
+        if(curr->data!=forward->data){
+            prev=forward;
+            forward=forward->next;
+        } else {
+          Node *newforward = forward;
+          prev->next = forward->next;
+          forward = forward->next; // check it
+          newforward->next = NULL;
+          delete newforward;
+        }
+    }
+    if (curr->next != NULL) {
+      curr = curr->next;
+      prev = curr;
+
+      forward = curr->next;
+    }
+    }
+    return head;      
+}
