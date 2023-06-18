@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+void rowF(vector<vector<int>> &matrix,int i){
+	for(int j=0;j<matrix[i].size();j++){
+		matrix[i][j]=0;
+	}
+	return;
+}
+void colF(vector<vector<int>> &matrix,int j){
+	for(int i=0;i<matrix.size();i++){
+		matrix[i][j]=0;
+	}
+	return;
+}
+void setZeros(vector<vector<int>> &matrix)
+{
+	vector<int>rowA(100,0);
+	vector<int>colA(100,0);
+	for(int i=0;i<matrix.size();i++){
+		for(int j=0;j<matrix[i].size();j++){
+			if(matrix[i][j]==0){
+				rowA[i]=1;
+				colA[j]=1;
+			}
+		}
+	}
+	for(int i=0;i<matrix.size();i++){
+		for(int j=0;j<matrix[i].size();j++){
+			if(rowA[i]==1){
+				rowF(matrix,i);
+			}
+			if(colA[j]==1){
+				colF(matrix,j);
+			}
+
+			
+		}
+	}
+	return;
+	
+	
+
+}
