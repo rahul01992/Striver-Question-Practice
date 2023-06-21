@@ -1,0 +1,20 @@
+#include <bits/stdc++.h>
+
+string fourSum(vector<int> arr, int target, int n) {
+    set<long long int>s;
+    for(int i=0;i<n;i++){
+        for(int j=i+1;j<n;j++){
+            for(int k=j+1;k<n;k++){
+                long long sum=arr[i]+arr[j];
+                sum+=arr[k];
+                long long fourth=target-sum;
+                if(s.find(fourth)!=s.end()){
+                    return {"Yes"};
+                }
+                s.insert(arr[k]);
+                
+            }
+        }
+    }
+    return {"No"};
+}
