@@ -1,0 +1,17 @@
+#include <bits/stdc++.h>
+
+int subarraysXor(vector<int> &arr, int x)
+{
+    int n=arr.size();
+    int cnt=0;
+    for(int i=0;i<n;i++){
+           int xor1=0;
+        for(int j=i;j<n;j++){
+            xor1=xor1^arr[j];
+            if(xor1==x){
+                cnt++;
+            }
+        }
+    }
+    return cnt;
+}
