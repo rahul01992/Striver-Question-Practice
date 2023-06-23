@@ -1,0 +1,27 @@
+void findSum2(vector<int>& candidates,int target,int index,vector<vector<int>>& ans,vector<int>&ds){
+    if(target==0){//1st base case
+        ans.push_back(ds);
+        return;
+    }
+    for(int i=index;i<candidates.size();i++){//loop for check for duplicates
+        if(i>index && candidates[i]==candidates[i-1]){//i>index (consider the first element)
+            continue;
+        }
+        if(candidates[i]>target){//another base case
+             return;
+        }
+        ds.push_back(candidates[i]);
+        findSum2(candidates,target-candidates[i],i+1,ans,ds);//pick the element which is not cause of duplicate combination sum
+        ds.pop_back();
+        //findSum2(candidates,target,index+1,ans,ds);
+    }
+
+}
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        vector<int>ds;
+        sort(candidates.begin(),candidates.end());
+        findSum2(candidates,target,0,ans,ds);
+        return ans;
+        
+    }
