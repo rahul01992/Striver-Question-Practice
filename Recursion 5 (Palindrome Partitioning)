@@ -1,0 +1,30 @@
+#include <bits/stdc++.h> 
+bool isPali(string s,int index,int i){
+    while(i>index){
+        if(s[index++]!=s[i--]){
+            return false;
+        }
+    }
+    return true;
+}
+void helper(string s,vector<vector<string>> &ans,vector<string>ds, int index){
+    //Base case
+    if(index==s.size()){ //before the index we are able to make partioning 
+        ans.push_back(ds);
+        return;
+    }
+    for(int i=index;i<s.size();i++){
+        if(isPali(s,index,i)){//check for palidrome from (index to i)
+            ds.push_back(s.substr(index,i-index+1));//add the substring into ds (i-index+1)
+            helper(s,ans,ds,i+1);
+            ds.pop_back();
+        }
+    }
+}
+vector<vector<string>> partition(string &s) 
+{
+    vector<vector<string>> ans;
+        vector<string>ds;
+        helper(s,ans,ds,0);
+        return ans;
+}
