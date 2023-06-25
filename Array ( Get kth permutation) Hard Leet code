@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+         //calculate factorial and enter the number till n into vector
+    int fact=1;
+    vector<int>numbers;
+    for(int i=1;i<n;i++){
+        fact=fact*i;
+        numbers.push_back(i);
+    }
+    numbers.push_back(n);//add numbers till n
+    //create ans string and reduce the value of k by 1
+    string ans="";
+    k=k-1;
+    while(true){
+        //pick up the number from array from index [k/fact] convert into char and add into ans string
+        ans=ans + to_string(numbers[k / fact]);
+        //erase that number from the array
+        numbers.erase(numbers.begin()+k /fact);
+        //check if array is empty
+        if(numbers.size()==0){
+            break;
+        } 
+        //update value of k and fact;
+        k=k%fact;
+        fact=fact/numbers.size();
+    }
+    return ans;
+    }
+};
