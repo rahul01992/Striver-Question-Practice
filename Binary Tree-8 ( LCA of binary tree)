@@ -1,0 +1,25 @@
+int lowestCommonAncestor(TreeNode<int> *root, int x, int y)
+{
+	//base case when we stand at one node
+    if(root==NULL){
+        return -1;
+    }
+    if(root->data==x|| root->data==y){
+        return root->data;
+    }
+    //left call and right call
+    int leftcall=lowestCommonAncestor(root->left, x,  y);
+    int rightcall=lowestCommonAncestor(root->right, x,  y);
+    if(leftcall==-1 && rightcall!=-1){
+        return rightcall;
+    }
+   else if(leftcall!=-1 && rightcall==-1){
+        return leftcall;
+    }
+    else if(leftcall==-1 && rightcall==-1){
+        return -1;
+    }
+   else{
+        return root->data;
+    }
+}
