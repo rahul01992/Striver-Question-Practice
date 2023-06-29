@@ -1,0 +1,33 @@
+int search(int* arr, int n, int target) {
+   int low=0;
+   int high=n-1;
+   while(low<=high){
+       int mid=(low+high)>>1;
+       if(arr[mid]==target){
+           return mid;
+       }
+       //check if left part is sorted
+       if(arr[low]<=arr[mid]){
+           //check if my target lies in left part
+           if(arr[low]<=target && arr[mid]>=target){
+               //then eliminate right part
+               high=mid-1;
+           }
+           else{
+               low=mid+1;
+           }
+       }
+       else{
+           //right part is sorted
+           // then check if target lies in right part
+           if(arr[mid]<=target && arr[high]>=target){
+               //eliminate left part
+               low=mid+1;
+           } else {
+             high = mid - 1;
+           }
+       }
+   }
+       return -1;
+       
+}
