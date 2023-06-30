@@ -1,0 +1,32 @@
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+    //creating queue that storing pair to (node,vertical),( vertical, level )
+    queue<pair<TreeNode<int>*,pair<int,int>>>q;
+    //Map data structure store vertical,level,and mutiset for the overlapping nodes
+    map<int,map<int,vector<int>>>mp;
+    q.push({root,{0,0}});
+    while(!q.empty()){
+        auto p=q.front();
+        TreeNode<int>* node=p.first;
+        q.pop();
+        int vertical=p.second.first;
+        int level=p.second.second;
+        mp[vertical][level].push_back(node->data);
+        if(node->left!=NULL){
+            q.push({node->left,{vertical-1,level+1}});
+        }
+        if(node->right!=NULL){
+            q.push({node->right,{vertical+1,level+1}});
+        }
+    }
+    vector<int> result;
+    for(auto i:mp){
+        for(auto j:i.second){
+            for(auto k: j.second){
+                result.push_back(k);
+            }
+        }
+    }
+    return result;   
+  }
+ 
