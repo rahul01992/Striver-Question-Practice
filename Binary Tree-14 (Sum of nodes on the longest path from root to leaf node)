@@ -1,0 +1,33 @@
+class Solution
+{
+public:
+void helper(Node* root,int len,int &maxLen,int sum,int &maxSum){
+    //base case
+    if(root==NULL){
+        if(len>maxLen){//If my length iss greater then max length
+            maxLen=len;// then update maxLenth and maxSum
+            maxSum=sum;
+        }
+        else if(len==maxLen){//if len is equal to maxLen then ony update max Sum
+            maxSum=max(maxSum,sum);
+        }
+        return;
+    }
+    sum=sum+root->data;// sum to root->data
+    helper(root->left,len+1,maxLen,sum,maxSum);
+    helper(root->right,len+1,maxLen,sum,maxSum);
+    
+}
+    
+    int sumOfLongRootToLeafPath(Node *root)
+    {
+        int len=0;
+        int maxLen=0;
+        int sum=0;
+        int maxSum=INT_MIN;
+        helper(root,len,maxLen,sum,maxSum);
+        return maxSum;
+       
+        
+    }
+};
