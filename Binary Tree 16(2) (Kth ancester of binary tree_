@@ -1,0 +1,38 @@
+BinaryTreeNode<int>* helper(BinaryTreeNode<int>* root,int target,int k){
+    if(root==NULL){
+        return NULL;
+    }
+    if(root->data==target){//we find my node then return that node
+        return root;
+    }
+    BinaryTreeNode<int>* leftT=helper(root->left, target,k);
+   BinaryTreeNode<int>* rightT=helper(root->right, target,k);
+    if(leftT!=NULL && rightT==NULL){
+        k--;
+        if(k<=0){//k==0 we got our ans the return the curr node
+            k=INT_MAX;
+            return root;
+        }
+        //if the value of k is not zero then return Non-NULL value
+        return leftT;  
+    }
+    if(leftT==NULL && rightT!=NULL){
+         k--;
+        if(k<=0){//k==0 we got our ans the return the curr node
+          k=INT_MAX;
+          return root;
+        }
+        //if the value of k is not zero then return Non-NULL value
+        return rightT;
+       
+    }
+    return NULL;
+}
+int findKthAncestor(BinaryTreeNode<int> *root, int targetNodeVal, int k) {
+    BinaryTreeNode<int>* ans=helper(root,targetNodeVal,k);
+    if(ans==NULL || targetNodeVal==root->data){//second condition is most important
+        return -1;
+    }
+    return ans->data;
+   
+}
