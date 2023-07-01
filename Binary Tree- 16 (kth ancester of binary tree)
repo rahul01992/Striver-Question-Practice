@@ -1,0 +1,37 @@
+bool helper(BinaryTreeNode<int>* root,int target,int k,vector<int> &path){
+    if(root==NULL){
+        return false;
+    }
+    if(root->data==target){
+        path.push_back(root->data);
+        return true;
+    }
+    path.push_back(root->data);
+    bool leftT=helper(root->left, target,k,path);
+    bool rightT=helper(root->right, target,k,path);
+    if (leftT == false && rightT == false) {
+      path.pop_back();
+      return false;
+    }
+    if(leftT==false && rightT==true){
+        return true;
+    }
+    if(leftT==true && rightT==false){
+        return true;
+    }
+}
+int findKthAncestor(BinaryTreeNode<int> *root, int targetNodeVal, int k) {
+    vector<int>path;
+    helper(root,targetNodeVal,k,path);
+    reverse(path.begin(),path.end());
+    if(path.size()<=k){
+        return -1;
+    }
+    int i=0;
+    while(i<=k){
+        if(i==k){
+            return path[i];
+        }
+        i++;
+    }
+}
