@@ -1,0 +1,30 @@
+class Solution {
+public:
+int findPos(vector<int> inorder,int element){
+    for(int i=0;i<inorder.size();i++){
+        if(inorder[i]==element){
+            return i;
+        }
+    }
+    return -1;
+}
+TreeNode* helper(vector<int> inorder,vector<int> preorder,int inorderStart,
+int inorderEnd,int &preRootIndex,int n){
+    if( preRootIndex >= n || inorderStart>inorderEnd){
+        return NULL;
+    }
+    int element=preorder[preRootIndex++];
+
+    TreeNode* root=new TreeNode(element);
+    int position=findPos(inorder,element);
+    root->left=helper(inorder,preorder,inorderStart,position-1,preRootIndex,n);
+    root->right=helper(inorder,preorder,position+1,inorderEnd,preRootIndex,n);
+    return root;
+}
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    int n=preorder.size();
+    int preRootIndex=0;
+
+    return helper(inorder,preorder,0,n-1,preRootIndex,n);     
+    }
+};
