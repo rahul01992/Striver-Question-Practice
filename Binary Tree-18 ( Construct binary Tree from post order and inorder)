@@ -1,0 +1,33 @@
+#include<map>
+ void createMapping(map<int,int> &nodeToIndex,vector<int> &inorder){
+    for(int i=0;i<inorder.size();i++){
+        nodeToIndex[inorder[i]]=i;//mapping of node to index
+    }
+}
+
+TreeNode<int>* helper(vector<int> inorder,vector<int> postOrder,int inorderStart,
+int inorderEnd,int &postRootIndex,int n,map<int,int> &nodeToIndex){
+     //base case 
+    if( postRootIndex < 0 || inorderStart>inorderEnd){
+        return NULL;
+    }
+    int element=postOrder[postRootIndex--];//pick the element
+
+   TreeNode<int>* root=new TreeNode<int>(element);//make a node of that element
+    int position=nodeToIndex[element];//find position of that element in inorder array
+
+    //right call will be first in post order /inorder case (because right subtree first begin to build in this case)
+    root->right=helper(inorder,postOrder,position+1,inorderEnd,postRootIndex,n,nodeToIndex);
+    root->left=helper(inorder,postOrder,inorderStart,position-1,postRootIndex,n,nodeToIndex);
+    return root;
+}
+TreeNode<int>* getTreeFromPostorderAndInorder(vector<int>& postOrder, vector<int>& inorder) 
+{
+     int n=postOrder.size();
+    int postRootIndex=n-1;//Now point the postRootIndex to end of post order array
+    map<int,int>nodeToIndex;//create a map
+    createMapping(nodeToIndex,inorder);.
+
+    return helper(inorder,postOrder,0,n-1,postRootIndex,n,nodeToIndex);     
+	
+}
