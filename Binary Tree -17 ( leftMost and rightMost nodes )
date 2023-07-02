@@ -1,0 +1,59 @@
+/**********************************************************
+        Following is the Binary Tree Node class structure
+
+        template <typename T>
+        class BinaryTreeNode {
+        public :
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+                this -> data = data;
+                left = NULL;
+                right = NULL;
+        }
+        };
+
+***********************************************************/
+vector<int> printLeftRightMostNodes(BinaryTreeNode<int>* root) 
+{
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    bool leftToRight=true;
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    ans.push_back(root->data);
+    if(root->left!=NULL && root->right!=NULL){
+            q.push(root->left);
+            q.push(root->right);
+    }
+ if(root->left!=NULL && root->right==NULL){
+            q.push(root->left);
+    }
+ if(root->left==NULL && root->right!=NULL){
+            q.push(root->right);
+    }
+    q.pop();
+    while(!q.empty()){
+            int size=q.size();
+            for(int i=0;i<size;i++){
+                    BinaryTreeNode<int>* front=q.front();
+                    q.pop();
+                    if(i==0 || i==size-1){
+                            ans.push_back(front->data);
+                    }
+                    if(front->left){
+                            q.push(front->left);
+                    }
+                    if(front->right){
+                            q.push(front->right);
+                    }
+            }
+
+       
+    }
+    return ans;
+}
