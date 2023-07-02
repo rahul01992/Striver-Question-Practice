@@ -1,0 +1,64 @@
+#include<stack>
+class Queue {
+//declaring two stacks
+    stack<int>input;
+    stack<int>output;
+    int size;
+
+    public:
+    
+    Queue() {
+      size=0;
+    }
+
+    void enQueue(int val) {//push directly into the input stack
+        input.push(val);
+        size++;
+    }
+
+    int deQueue() {
+        if(size==0){
+            return -1;
+        }
+        if(output.empty()==false){//when output is not empty
+            int ans=output.top();//return the output.top
+            output.pop();
+            size--;
+            return ans;
+        }
+        //when output is empty
+        while(input.empty()==false){//push all the element of input stack to output stack
+            output.push(input.top());
+            input.pop();
+        } 
+        int ans=output.top();//the  return the or pop the top element of output stack
+        output.pop();
+        size--;
+        return ans;
+
+    }
+
+    int peek() {
+        if(size==0){
+            return -1;
+        }
+        if(output.empty()==false){
+            return output.top();
+        }
+        while(input.empty()==false){
+            output.push(input.top());
+            input.pop();
+        }
+        return output.top();    
+    }
+
+    bool isEmpty() {
+        // Implement the isEmpty() function here.
+        if(size==0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+};
