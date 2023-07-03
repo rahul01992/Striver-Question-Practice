@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        stack<char>st;
+    for(int i=0;i<s.length();i++){
+        //add opening bracket into stack
+        if(s[i]=='{' || s[i]=='(' || s[i]=='['){
+            st.push(s[i]);
+        }
+        else{
+            //if bracket we found in string is closing
+          if (st.empty()) {// their is no one in stack to compre with closing bracket(false)
+            return false;
+          }
+          char c = st.top();//pickup the top of stack(we are finding for opening bracket in stack)
+        
+          if ((s[i] == '}' && c == '{')
+             ||(s[i] == ']' && c == '[')
+             || (s[i]==')' && c=='(')){
+            st.pop();//if we found the perfect match (pop out from the stack)
+          }
+          else{
+              return false;//not fond match (false)
+          }
+        }
+    }
+    if(st.empty()){// we are continously findinding and removing (stack empty)
+    //able to find all pairs 
+        return true;
+    }
+    else{
+        return false;
+    }   
+    }
+};
