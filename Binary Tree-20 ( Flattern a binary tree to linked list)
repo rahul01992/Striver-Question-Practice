@@ -1,0 +1,19 @@
+  void flatten(TreeNode* root) {
+        TreeNode* curr=root;//set curr to the root
+        //loop when curr!=NULL
+        while(curr!=NULL){
+            if(curr->left!=NULL){//if curr's left not NULL
+                TreeNode* pre=curr->left;//find predessor
+                while(pre->right!=NULL){
+                    pre=pre->right;
+                }
+                pre->right=curr->right;//predessor's right=curr->right
+                curr->right=curr->left;//curr->right to curr->left
+                //also do curr->left to NULL (IMP)
+                curr->left=NULL;
+            }
+            curr=curr->right;
+        }
+        return;
+        
+    }
