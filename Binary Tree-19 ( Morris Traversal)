@@ -1,0 +1,27 @@
+void MorrisTraversal(Node* root){
+    Node* curr=root;
+    //check if curr->left is  NULL
+    if(curr->left==NULL){//if curr->left==NULL
+        print(curr)
+        curr=curr->right;
+    }
+    else{
+        //if curr->left!=NULL
+        Node* predcessor=curr->left;//find predcessor 
+        while(predcessor->right!=NULL && predcessor->right!=curr){
+            predcessor=predcessor->right;
+        }
+
+        //creation of link
+        if(predcessor->right==NULL){
+            predcessor->right=curr;
+            curr=curr->left;
+        }
+        else{
+            //removal of link
+            predcessor->right=NULL;
+            print(curr)
+            curr=curr->right;
+        }
+    }
+}
