@@ -1,0 +1,28 @@
+class Solution {
+public:
+bool helper(TreeNode* leftT,TreeNode* rightT){
+    if(leftT==NULL && rightT!=NULL){
+        return false;
+    }
+    if(leftT!=NULL && rightT==NULL){
+        return false;
+    }
+    if(leftT==NULL && rightT==NULL){
+        return true;
+    }
+    if(leftT->val!=rightT->val){
+        return false;
+    }
+    bool leftS= helper(leftT->left,rightT->right);
+    bool rightS=helper(leftT->right,rightT->left);
+    return leftS && rightS;
+
+
+}
+    bool isSymmetric(TreeNode* root) {
+        if(root==NULL){
+            return true;
+        }
+        return helper(root->left,root->right);
+    }
+};
