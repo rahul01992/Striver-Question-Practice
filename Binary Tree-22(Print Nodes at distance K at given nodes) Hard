@@ -1,0 +1,67 @@
+#include <bits/stdc++.h> 
+void makeParentTrack(BinaryTreeNode<int>* root,unordered_map<BinaryTreeNode<int>*,
+BinaryTreeNode<int>*> &parent_track){
+    queue<BinaryTreeNode<int>*>q;
+    q.push(root);
+    while(!q.empty()){
+        BinaryTreeNode<int>* curr=q.front();
+        q.pop();
+        if(curr->left!=NULL){
+            //make a track of child node to it's parent
+            parent_track[curr->left]=curr;
+            //and push into the queue
+            q.push(curr->left);
+        }
+        if(curr->right!=NULL){
+            parent_track[curr->right]=curr;
+            q.push(curr->right);
+        }
+    }
+}
+
+vector<BinaryTreeNode<int>*> printNodesAtDistanceK(BinaryTreeNode<int>* root,
+ BinaryTreeNode<int>* target, int K) {
+     //create a map to keep a track of node's parents
+        unordered_map<BinaryTreeNode<int>*,BinaryTreeNode<int>*>parent_track;
+
+        makeParentTrack(root,parent_track);
+
+        //maka a track for visiting the nodes
+        unordered_map<BinaryTreeNode<int>*,bool>visited;
+
+        queue<BinaryTreeNode<int>*>q2;
+        //start finding distance from target
+        q2.push(target);
+        visited[target]=true;
+        
+        int dist=0;
+        while(!q2.empty()){
+            int size=q2.size();
+            if(dist++==K) break;
+            for(int i=0;i<size;i++){
+                BinaryTreeNode<int>* front=q2.front();
+                q2.pop();
+                //check if a particular (node have left) and also its (left is not visited)
+                if(front->left!=NULL && !visited[front->left]){
+                    q2.push(front->left);//push into queue
+                    visited[front->left]=true;//and marks it as true in visited map
+                }
+
+                if(front->right!=NULL && !visited[front->right]){
+                    q2.push(front->right);
+                    visited[front->right]=true;
+                }
+                //check the parent of node (parent_track[front])
+                if(parent_track[front]!=NULL && !visited[parent_track[front]]){
+                    q2.push(parent_track[front]);
+                    visited[parent_track[front]]=true;
+                }
+            }
+        }
+       vector<BinaryTreeNode<int>*>ans;
+        while(!q2.empty()){
+           ans.push_back(q2.front());
+           q2.pop();
+        }
+        return ans;
+}
