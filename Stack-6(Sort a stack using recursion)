@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+void insertSorted(stack<int> &s,int num){
+	if(s.empty() ||(!s.empty() && s.top()<num)){//check if number is able to put into top
+		s.push(num);
+		return;
+	}
+	int x=s.top();
+	s.pop();
+	insertSorted(s, num);
+	s.push(x);//while returning bring with you the remaining number
+}
+void sortStack(stack<int> &s)
+{
+	if(s.empty()){
+		return;
+	}
+	int num=s.top();
+	s.pop();
+	sortStack(s);//Here recursion will be bring us the sorted stack
+	insertSorted(s,num);//Now put the number into the stack in sorted way
+}
