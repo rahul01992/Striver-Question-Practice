@@ -1,0 +1,24 @@
+#include<stack>
+#include<vector>
+void atBottom(stack<int> &stacks,int num){
+//base case-2
+    if(stacks.empty()){
+        stacks.push(num);
+        return;
+    }
+    int x=stacks.top();
+    stacks.pop();
+    atBottom(stacks, num);
+    stacks.push(x);//while returning take a number with you
+}
+void reverseStack(stack<int> &stacks) {
+//base case-1 (when stack is empty then return
+    if(stacks.empty()){
+        return;
+
+    }
+    int num=stacks.top();
+    stacks.pop();
+    reverseStack(stacks);
+    atBottom(stacks,num); // push the number num into bottom
+}
