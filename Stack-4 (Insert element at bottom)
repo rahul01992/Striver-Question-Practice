@@ -1,0 +1,17 @@
+#include <bits/stdc++.h>
+void helper(stack<int>& myStack,int key,int count){
+    if(myStack.empty() && count==myStack.size()){
+        myStack.push(key);
+        return;
+    }
+    int num=myStack.top();
+    myStack.pop();
+    helper(myStack,key,count++);
+    myStack.push(num);//while returning take the number with you
+} 
+stack<int> pushAtBottom(stack<int>& myStack, int x) 
+{
+    int count=0;
+    helper(myStack,x,count);
+    return myStack;
+}
