@@ -1,0 +1,66 @@
+#include <bits/stdc++.h> 
+/*************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode
+    {
+    public :
+        T data;
+        BinaryTreeNode < T > *left;
+        BinaryTreeNode < T > *right;
+
+        BinaryTreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+*************************************************************/
+void changeTree(BinaryTreeNode < int > * root) {
+    if(root==NULL){
+        return ;
+    }
+    //Here I am trying to find out the children sum of given root
+    int child=0;
+    if(root->left!=NULL){
+        child+=root->left->data;
+    }
+    if(root->right!=NULL){
+        child+=root->right->data;
+    }
+     //Here I am going to check two condition
+    //whether children sum is greater or less then root
+   
+   if(child>=root->data) {
+        root->data=child;
+    }
+     else{
+        //if (root->data) is greter then make children greater
+        if (root->left != NULL) {
+          root->left->data = root->data;
+        }
+        if (root->right != NULL) {
+          root->right->data = root->data;
+        }
+    }
+
+
+    changeTree(root->left);
+    changeTree(root->right);
+
+    int total=0;
+    if(root->left!=NULL){
+        total+=root->left->data;
+    }
+    if(root->right!=NULL){
+        total+=root->right->data;
+    }
+
+    // Focus on this condition(anyone is true whether its left or its right change root accordingly)
+    if (root->left!=NULL || root->right!=NULL) {
+      root->data = total;
+      return;
+    }
+}  
