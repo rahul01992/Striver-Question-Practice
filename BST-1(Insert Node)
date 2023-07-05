@@ -1,0 +1,15 @@
+TreeNode<int>* insertionInBST(TreeNode<int>* root, int val)
+{
+    if(root==NULL){
+        TreeNode<int>* newNode=new TreeNode<int>(val);
+        return newNode;
+    }
+    if(root->val>val){
+        // insert in left part
+        root->left=insertionInBST(root->left,val);
+    }
+    else {
+        //insert in right part
+        root->right=insertionInBST(root->right,val);
+    }
+}
