@@ -1,0 +1,19 @@
+bool helper(BinaryTreeNode<int>* root,long mini,long maxi){
+    if(root == NULL) {
+        return true;
+    }
+    //if root->data strictly out of range
+    if(root->data>maxi || root->data<mini){
+        return false;
+      
+    }
+    //while left call update max range accordingly (root->data)
+     bool leftT=helper(root->left,mini,root->data);
+     //while in right call update min range accordingly (root->data);
+     bool rightT=helper(root->right,root->data,maxi);
+     return leftT && rightT;
+}
+bool validateBST(BinaryTreeNode<int> *root) {
+    //take LONG_MIN and LONG_MAX
+    return helper(root,LONG_MIN,LONG_MAX);
+}
