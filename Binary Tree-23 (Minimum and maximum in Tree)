@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+void func(BinaryTreeNode<int>* root,int &mini,int &maxi){
+	if(root==NULL){
+		return ;
+	}
+	func(root->left, mini, maxi);
+	mini=min(mini,root->data);
+	maxi=max(maxi,root->data);
+	func(root->right,mini,maxi);
+
+}
+pair<int, int> getMinAndMax(BinaryTreeNode<int>* root) {
+	int mini=INT_MAX,maxi=INT_MIN;
+	func(root,mini,maxi);
+	pair<int,int>p;
+	p=make_pair(mini,maxi);
+	return p;
+}
