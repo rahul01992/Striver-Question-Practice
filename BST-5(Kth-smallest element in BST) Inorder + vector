@@ -1,0 +1,22 @@
+void solve(TreeNode<int> *root,vector<int> &v){
+    if(root==NULL){
+        return;
+    }
+    solve(root->left,v);
+    v.push_back(root->data);
+    solve(root->right,v);
+}
+int kthSmallest(TreeNode<int> *root, int k)
+{
+	 vector<int>v;
+        //inorder traversal on tree and push back into vector (sorted order)
+        solve(root,v);
+        int ans=0;
+        for(int i=0;i<v.size();i++){
+            if((i+1)==k){
+                ans=v[i];
+                break;
+            }
+        }
+        return ans;
+}
