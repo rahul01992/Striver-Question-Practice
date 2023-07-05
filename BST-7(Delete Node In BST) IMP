@@ -1,0 +1,58 @@
+class Solution {
+public:
+TreeNode* RightMini(TreeNode* root){
+    TreeNode* temp3=root;
+    while(temp3->left!=NULL){
+        temp3=temp3->left;
+    }
+    return temp3;
+}
+    TreeNode* deleteNode(TreeNode* root, int X) {
+         if(root==NULL){
+        return root;
+    }
+    if(root->val==X){
+        //0 child
+        if (root->left == NULL && root->right == NULL) {
+            delete root;
+            return NULL;
+        }
+
+        // 1 child
+        //2 cases (left is NULL or right is NULL)
+        if(root->left!=NULL && root->right==NULL){
+            TreeNode* temp=root->left;
+            delete root;
+            return temp;
+        }
+       else if(root->right!=NULL && root->left==NULL){
+            TreeNode* temp2=root->right;
+            delete root;
+            return temp2;
+        }
+
+        // 2 child
+       else if(root->left!=NULL && root->right!=NULL){
+            //find minimum from right subTree
+            int mini=RightMini(root->right)->val;
+            //Replace root with that minimum value
+            root->val=mini;
+            // delete that minimum in that right subtree
+            root->right=deleteNode(root->right,mini);
+            return root;
+        }
+    }
+    else if(root->val>X){
+        //left call 
+        root->left=deleteNode(root->left,X);
+        return root;
+    }
+    else{
+       // right recursive  call
+        root->right=deleteNode(root->right,X);
+        return root;
+    }
+    return NULL;
+        
+    }
+};
