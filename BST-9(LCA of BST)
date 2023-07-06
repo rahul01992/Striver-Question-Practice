@@ -1,0 +1,78 @@
+#include <bits/stdc++.h> 
+/************************************************************
+    Following is the Binary Search Tree node structure
+    
+    template <typename T>
+    class TreeNode {
+        public :
+        T data;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T data) {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~TreeNode() {
+            if(left)
+                delete left;
+            if(right)
+                delete right;
+        }
+    };
+
+************************************************************/
+
+TreeNode<int>* LCAinaBST(TreeNode<int>* root, TreeNode<int>* P, TreeNode<int>* Q)
+{
+//CODE FOR FINDING LCA OF BINARY TREE
+// 	if(root==NULL){
+//         return NULL;
+//     }
+//     if(root==P || root==Q){
+//         return root;
+//     }
+//   TreeNode<int>* leftT= LCAinaBST(root->left,P,Q);
+//     TreeNode<int>* rightT=LCAinaBST(root->right,P,Q);
+//     if(leftT!=NULL && rightT==NULL){
+//         return leftT;
+//     }
+//     else if(leftT==NULL && rightT!=NULL){
+//         return rightT;
+//     }
+//     else if(leftT==NULL && rightT==NULL){
+//         return NULL;
+//     }
+//     else {
+//         return root;
+//     }
+
+
+
+//CODE FOR FINDING LCA OF BST
+if(root==NULL){
+    return NULL;
+}
+int curr=root->data;
+// check where two nodes exist in BST 
+
+// check for left part(if nodes are less then root)
+if((curr>P->data) && (curr>Q->data)){
+    //Go left
+   return LCAinaBST(root->left,P,Q);
+}
+
+//Check in right part
+// check if both nodes are greater then root
+if(curr<P->data && curr<Q->data){
+    //Go right
+    return LCAinaBST(root->right,P,Q);
+}
+
+// No go left No go right
+else {
+  return root;
+}
+}
