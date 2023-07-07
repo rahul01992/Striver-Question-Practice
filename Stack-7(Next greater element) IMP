@@ -1,0 +1,26 @@
+#include<stack>
+#include<vector>
+vector<int> nextGreaterElement(vector<int>& arr, int n)
+{
+    vector<int>nge(n,-1);
+    stack<int>st;
+    for(int i=2*n-1;i>=0;i--){
+        //Remove all elements which are less then arr[i]
+        while(!st.empty() && st.top()<= arr[i%n]){
+            st.pop();
+        }
+        if(i<n){
+          if (st.empty() == false) {//when stack is not empty
+               nge[i%n]=st.top();
+          }
+          else{
+              //if stack is empty
+              nge[i%n]=-1;
+          }
+          //push into the stack
+         st.push(arr[i%n]);
+        }
+       
+    }
+    return nge;
+}
