@@ -1,0 +1,28 @@
+int helper(TreeNode<int> * root, int &maxi) { 
+    if (root == NULL) {
+            return 0;
+        }
+        int leftSum = helper(root->left, maxi);
+        int rightSum = helper(root->right, maxi);
+        
+        // Calculate the maximum path sum including the current node
+        int currentSum = max({leftSum, rightSum, 0}) + root->val;
+        
+        // Calculate the maximum path sum passing through the current node
+        int pathSum = max(leftSum, 0) + max(rightSum, 0) + root->val;
+        
+        // Update the result if the pathSum is greater
+        maxi = max(maxi, pathSum);
+        
+        return currentSum;
+}
+long long int findMaxSumPath(TreeNode<int> *root)
+{
+    if(root==NULL || root->left==NULL || root->right==NULL){
+        return -1;
+    }
+   int maxi = INT_MIN;
+  helper(root, maxi);
+  return maxi;
+    
+}
