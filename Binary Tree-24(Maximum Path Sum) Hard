@@ -1,0 +1,26 @@
+class Solution {
+public:
+int helper(TreeNode* root,int &maxi){
+    if(root==NULL){
+        return 0;
+    }
+    // use max function to avoid -ve sum
+
+    //left call for finding the leftSubTree sum
+    int leftT=max(0,helper(root->left,maxi));
+
+    //right call for finding the rightSubTree sum
+    int rightT=max(0,helper(root->right,maxi));
+     
+    //update maxi(max Sum on path) 
+    maxi=max(maxi,root->val+leftT+rightT);
+
+    //deciding the path which give max path sum
+    return root->val+max(leftT,rightT);
+}
+    int maxPathSum(TreeNode* root) {
+        int maxi=INT_MIN;
+        helper(root,maxi);
+        return maxi;
+    }
+};
