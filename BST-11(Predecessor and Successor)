@@ -1,0 +1,32 @@
+
+pair<int,int> predecessorSuccessor(BinaryTreeNode<int>* root, int key)
+{
+    BinaryTreeNode<int>* temp=root;
+    //succ greater value then key
+    int succ=-1;
+    while(temp!=NULL){
+        if(temp->data<=key){
+            temp=temp->right;
+        }
+        else{
+            // if we find value greater then key in the case of succ
+            // store it in succ and search for lower value in left
+            succ=temp->data;
+            temp=temp->left;
+        }
+    }
+    // pre lower value then key
+    int pre=-1;
+    temp=root;
+    while(temp!=NULL){
+        if(temp->data>=key){
+            temp=temp->left;
+        }
+        else{
+            //
+            pre=temp->data;
+            temp=temp->right;
+        }
+    }
+    return {pre,succ};
+}
