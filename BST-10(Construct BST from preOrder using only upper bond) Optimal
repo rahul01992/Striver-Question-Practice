@@ -1,0 +1,20 @@
+TreeNode<int>* helper(vector<int> preOrder,int &index,long long ub){
+    //base case (if element is greater then ub) OR index==array size
+    if(preOrder[index]>ub || index==preOrder.size()){
+        return NULL;
+    }
+    // create node
+    TreeNode<int>* root=new TreeNode<int>(preOrder[index++]);
+
+    // for left call update the ub to root->data
+    root->left=helper(preOrder,index,root->data);
+
+    //for right call ub value will be same as previous
+    root->right=helper(preOrder,index,ub);
+    return root;
+    
+}
+TreeNode<int>* preOrderTree(vector<int> &preOrder){
+    int index=0;
+    return helper(preOrder,index,LONG_MAX);
+}
