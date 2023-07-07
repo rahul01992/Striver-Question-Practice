@@ -1,0 +1,37 @@
+void mapping(vector<int> inOrder,unordered_map<int,int> &mp){
+    for(int i=0;i<inOrder.size();i++){
+        mp[inOrder[i]]=i;
+    }
+}
+TreeNode* helper(vector<int> preOrderNew,vector<int> inOrder,
+int inorderStart,int inorderEnd,int &preRootindex,unordered_map<int,int> mp){
+    //base case
+    if(preRootindex==preOrderNew.size() || inorderStart>inorderEnd){
+        return NULL;
+    }
+    //create Node of first element of preOrder vector
+    TreeNode* root=new TreeNode(preOrderNew[preRootindex++]);
+
+    //find the position of root->val into inOrder vector
+    int pos=mp[root->val];
+    root->left=helper(preOrderNew,inOrder,inorderStart,pos-1,preRootindex,mp);
+    root->right=helper(preOrderNew,inOrder,pos+1,inorderEnd,preRootindex,mp);
+    return root;
+}
+    TreeNode* bstFromPreorder(vector<int>& preOrder) {
+    vector<int>preOrderNew;
+    preOrderNew=preOrder;
+    vector<int>inOrder;
+    sort(preOrder.begin(),preOrder.end());
+    inOrder=preOrder;
+    int preRootIndex=0;
+    int inorderStart=0;
+    int inorderEnd=inOrder.size()-1; 
+
+    //create mapping
+    unordered_map<int,int>mp;
+    mapping(inOrder,mp);   
+   return helper(preOrderNew,inOrder,inorderStart,inorderEnd,preRootIndex,mp);
+        
+    }
+};
