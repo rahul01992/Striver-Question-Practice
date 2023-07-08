@@ -1,0 +1,66 @@
+class LRUCache {
+    public:
+    //map to store key value pairs
+    unordered_map<int,int>m;
+
+    //DLL to achieve LRU properties
+    list<int>l;
+
+    //map to store key and it address
+    unordered_map<int,list<int>:: iterator> address;
+
+     //total size
+    int cap=0;
+
+    //current size
+    int size=0;
+
+    LRUCache(int capacity) {
+        cap=capacity;
+        size=0;
+    }
+    
+    
+    int get(int key) {
+        //if key is not present
+        if(m.find(key)==m.end()){
+            return -1;
+        }
+//Now key is present So before returning it lets change its position from current to front
+//because it is recently used (so to achieve this at first we have to bring the address       of given node)
+
+        list<int>:: iterator it=address[key];
+        l.erase(it);
+        address.erase(key);
+
+        //add into front of list
+
+        l.push_front(key);
+        address[key]=l.begin();
+        return m[key];
+        
+    }
+    
+    void put(int key, int value) {
+        //if key is already present then delete it
+        if(m.find(key)!=m.end()){
+            l.erase(address[key]);
+            address.erase(key);
+            m.erase(key);
+            size--;
+        }
+        if(cap==size){
+            //delete the last node
+            int k=l.back();
+            l.pop_back();
+            address.erase(k);
+            m.erase(k);
+            size--;
+        }
+        size++;
+        //add new node into front of DLL
+        l.push_front(key);
+        address[key]=l.begin();
+        m[key]=value;
+    }
+};
