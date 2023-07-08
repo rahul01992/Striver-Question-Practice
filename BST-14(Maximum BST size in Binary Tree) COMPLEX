@@ -1,0 +1,40 @@
+class NodeValue{
+    public:
+    //minimum value
+    int minvalue;
+
+    //maximum value 
+    int maxvalue;
+    int maxsize;
+    NodeValue(int minvalue,int maxvalue,int maxsize){
+        this->minvalue=minvalue;
+        this->maxsize=maxsize;
+        this->maxvalue=maxvalue;
+    }
+};
+
+NodeValue helper(TreeNode<int>* root){
+    if(root==NULL){
+        return NodeValue(INT_MAX,INT_MIN,0);
+    }
+     
+     auto leftCall=helper(root->left);
+     auto rightCall=helper(root->right);
+
+    //check if valid BST 
+//  if(left.greatest    < root->val      &&  right.smallest > root->val)
+    if(leftCall.maxvalue<root->data && rightCall.minvalue>root->data){
+
+        return NodeValue(min(root->data,leftCall.minvalue),max(root->data,rightCall.maxvalue),
+        leftCall.maxsize+rightCall.maxsize+1);
+
+    }
+
+    //Not BST
+    return NodeValue(INT_MIN,INT_MAX,max(leftCall.maxsize,rightCall.maxsize));
+}
+int largestBST(TreeNode<int>* root) 
+{
+    return helper(root).maxsize;
+    
+}
