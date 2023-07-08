@@ -1,0 +1,78 @@
+#include <iostream>
+#include<stack>
+using namespace std;
+class BST_iterator{
+    private:
+    stack<TreeNode*>st;
+    //true->before
+    //false->next
+    bool reverse=true;
+
+    public:
+    //constructor
+    BST_iterator(TreeNode* root,bool isReverse){
+        reverse=isReverse;
+        pushAll(root);
+    }
+
+    bool hasnext(){
+        return !st.empty();
+    }
+
+    int next(){
+        TreeNode* temp=st.top();
+        st.pop();
+        if(reverse){//if reverse is true (means before)
+          pushAll(root->left);
+         
+        else{
+             //means reverse is false (means next)
+            pushAll(root->right);
+        }
+        return temp->val;
+    }
+
+    void pushAll(TreeNode* root){
+        while(root!=NULL){
+            //if reverse is true(means before)
+            if(reverse){
+                st.push(root);
+                root=root->right;
+            }
+            else{
+                //reverse is false (means next)
+                st.push(root);
+                root=root->left;
+            }
+        }
+    }
+};
+int main(){
+    bool realFunctin(TreeNode* root,int target){
+
+        if(root==NULL){
+            return false;
+        }
+        //creating objects
+        BST_iterator l(root,false);//for next
+        BST_iterator h(root,true);//for before
+
+        // declare low pointer and high pointer
+        int i=l.next();
+        int j=h.next();
+        while(i<j){
+            if(i+j==target){
+                return true;
+            }
+            else if(i+j<target){
+                i=l.next();//need greater value(increase l)
+            }
+            else{
+                j=r.next();
+            }
+
+        }
+        return false;
+
+    }
+}
