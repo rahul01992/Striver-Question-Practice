@@ -1,0 +1,54 @@
+#include <unordered_map>
+#include <vector>
+#include<queue>
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+
+   unordered_map<int,vector<int>> adj;
+   for(int i=0;i<edges.size();i++){
+     int u=edges[i].first-1;
+     int v=edges[i].second-1;
+
+    adj[u].push_back(v);
+    }
+    
+    //giving the size to the indegree array is mandentary
+    vector<int>indegree(n);
+    queue<int>q;
+
+    //find the indegree
+    for(auto i:adj){
+      for(auto j:i.second){
+        indegree[j]++;
+      }
+    }
+
+    //check if indegree of particular vertex is zero then put that into queue
+    for(int i=0;i<n;i++){
+       if(indegree[i]==0){
+         q.push(i);
+       }
+    }
+    int cnt=0;
+    while(!q.empty()){
+      int front=q.front();
+      q.pop();
+      cnt++;
+
+      for(auto neighbour: adj[front]){
+        indegree[neighbour]--;
+
+        if(indegree[neighbour]==0){
+          q.push(neighbour);
+        }
+      }
+
+    }
+    if(cnt==n){//valid topological sort means no cycle present
+    return false;
+    }
+    else {
+      return true;
+    }
+
+   
+  }
