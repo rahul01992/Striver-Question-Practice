@@ -1,0 +1,56 @@
+#include<queue>
+#include<vector>
+void bfs(int row,int col,vector<vector<int>> &visited,int **arr,int n,int m){
+   //mark the starting node to be true
+   visited[row][col]=1;
+
+   queue<pair<int,int>>q;
+
+   q.push({row,col});
+
+   while(!q.empty()){
+      int rown = q.front().first;
+      int coln=q.front().second;
+      q.pop();
+
+      //traverse the neighbour of starting node 
+      for(int delrow=-1;delrow<=1;delrow++){
+         for(int delcol=-1;delcol<=1;delcol++){
+
+            //update the row col as its neighbours(rowd and cold are the indexes of neighbours)
+            //rowd and cold are the indexes of neighbours
+            int rowd=rown+delrow;
+            int cold=coln+delcol;
+
+            // neighbour of particular node should follow these couple of conditions
+            // both indexes should be in bound 
+            // that neighbour should not be visited
+            //that neighbour should be land
+            if(rowd<n && rowd>=0 && cold<m && cold>=0 
+            && !visited[rowd][cold] && arr[rowd][cold]==1){
+               //if neighbour follow are three conditions 
+               // then mark neighbour as visited and push its indexes into queue
+               visited[rowd][cold]=1;
+               q.push({rowd,cold});
+            }
+         }
+      }
+
+   }
+}
+int getTotalIslands(int** arr, int n, int m)
+{
+   //make 2-D vector of visited arrayof size n*m
+   vector<vector<int>> visited(n,vector<int>(m,0));
+   int cnt=0;
+   for(int row=0;row<n;row++){
+      for(int col=0;col<m;col++){
+         //if it is land and it is not visited then call bfs on this node
+         if(!visited[row][col] && arr[row][col]==1){
+            cnt++;
+            bfs(row,col,visited,arr,n,m);
+         }
+      }
+   }
+   return cnt;
+}
