@@ -1,0 +1,42 @@
+#include<unordered_map>
+#include<vector>
+#include<stack> 
+void dfsTopo(unordered_map<int,vector<int>> &adj, vector<bool> &visited
+, stack<int> &st,int &node){
+    visited[node]=true;
+
+    for(auto neighbour:adj[node]){
+        if(!visited[neighbour]){
+            dfsTopo(adj,visited,st,neighbour);
+        }
+    }
+  st.push(node);
+}
+
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)
+  {
+    // create adjancy list
+    unordered_map<int,vector<int>> adj;
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+
+        adj[u].push_back(v);
+    }
+
+    //visited array
+   vector<bool>visited(v);
+    stack<int>st;
+    vector<int>ans;
+    for(int i=0;i<v;i++){
+        if(!visited[i]){
+            dfsTopo(adj,visited,st,i);
+
+        }
+    }
+    for(int i=0;i<v;i++){
+        ans.push_back(st.top());
+        st.pop();
+    }
+    return ans;
+}
