@@ -1,0 +1,54 @@
+#include<unordered_map>
+#include<vector>
+#include<queue>
+#include<stack> 
+vector<int> topologicalSort(vector<vector<int>> &edges, int v, int e)
+  {
+    // create adjancy list
+    unordered_map<int,vector<int>> adj;
+    for(int i=0;i<edges.size();i++){
+        int u=edges[i][0];
+        int v=edges[i][1];
+
+        adj[u].push_back(v);
+    }
+    //create indegre vector of size v
+    vector<int>Indegre(v);
+    queue<int>q;
+
+    //find the indegree of all the vertices
+    for(auto i:adj){
+        for(auto j:i.second){
+            Indegre[j]++;
+        }
+    }
+    //push vertices into queue which degree is 0
+    for(int i=0;i<v;i++){
+        if(Indegre[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int>ans;
+    while(!q.empty()){
+        int front=q.front();
+
+        //push front into ans
+        ans.push_back(front);
+        q.pop();
+
+        //find the neighbours of front
+        for(auto neighbour:adj[front]){
+            //reduce the indegree by one
+            Indegre[neighbour]--;
+
+            //check if indegree is 0
+            if(Indegre[neighbour]==0){
+                //if zero then push that neighbout into queue
+                q.push(neighbour);
+            }
+        }
+    }
+    return ans;
+
+  
+}
