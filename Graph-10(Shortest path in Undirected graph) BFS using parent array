@@ -1,0 +1,61 @@
+#include<unordered_map>
+#include<list>
+#include<queue>
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+	
+	//create adj list
+	unordered_map<int,list<int>>adj;
+	for(auto edge:edges){
+		int u=edge.first;
+		int v=edge.second;
+
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+
+	//create visited array
+	unordered_map<int,bool>visited;
+
+	//create queue
+	queue<int>q;
+
+	//push source node into queue
+	q.push(s);
+
+	//mark true for source node
+	visited[s]=true;
+
+	//create parent array;
+	vector<int>parent(edges.size());
+
+	//mark parent of soure node to -1
+	parent[s]=-1;
+
+    // Do BFS (And prepare parent array)
+	while(!q.empty()){
+		int front=q.front();
+		q.pop();
+
+		for(auto neighbour:adj[front]){
+			if(!visited[neighbour]){
+				visited[neighbour]=true;
+				q.push(neighbour);
+
+				//set the parent of neighbour as a front
+				parent[neighbour]=front;
+			}
+		}
+	}
+
+	vector<int>ans;
+
+	//traverse over the parent array to find minimum path(starting from the end)
+	int currentNode=t;
+	ans.push_back(currentNode);
+	while(currentNode!=s){
+		currentNode=parent[currentNode];
+		ans.push_back(currentNode);
+	}
+	reverse(ans.begin(),ans.end());
+	return ans;
+}
