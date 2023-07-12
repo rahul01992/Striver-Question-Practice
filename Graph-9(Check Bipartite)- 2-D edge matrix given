@@ -1,0 +1,58 @@
+#include<unordered_map>
+#include<list>
+#include<vector>
+#include<queue>
+bool bfs(int start,int *color,unordered_map<int,vector<int>> &adj){
+	color[start]=0;
+	queue<int>q;
+	q.push(start);
+
+	while(!q.empty()){
+		int front=q.front();
+		q.pop();
+
+		for(auto neighbour: adj[front]){
+			//check if neighbours are not coloured
+			if(color[neighbour]==-1){
+				//then color it to the opposite of its parents
+				color[neighbour] = !color[front];
+				q.push(neighbour);
+			}
+
+			//if color of neighbour is the same as the color of the parent(front) then no barpartite
+			else if(color[neighbour]==color[front]){
+				return false;
+			}
+		}
+	}
+	return true;
+
+}
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	unordered_map<int,vector<int>>adj;
+	for(int i=0;i<edges.size();i++){
+		for(int j=0;j<edges[i].size();j++){
+			if(edges[i][j]==1){
+				adj[i].push_back(j);
+				adj[j].push_back(i);
+			}
+		}
+	}
+	int v=edges.size();
+	int color[v];
+	//mark color intially to -1
+        for (int i = 0; i < v; i++) {
+          color[i] = -1;
+        }
+
+        for(int i=0;i<v;i++){
+		//check if not coloured
+		if(color[i]==-1){
+			if(bfs(i,color,adj)==false){
+				return false;
+			}
+
+		}
+	}
+	return true;
+}
