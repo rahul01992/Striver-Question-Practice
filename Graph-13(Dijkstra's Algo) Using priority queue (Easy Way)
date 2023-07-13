@@ -1,0 +1,54 @@
+#include <bits/stdc++.h> 
+vector<int> dijkstra(vector<vector<int>> &vec, int vertices, int edges, int source) {
+   //create adj list (now weight included in each edge)
+  // {u,{v,w}}
+   unordered_map<int,list<pair<int,int>>>adj;
+   for(int i=0;i<edges;i++){
+       int u=vec[i][0];
+       int v=vec[i][1];
+       int w=vec[i][2];
+
+       adj[u].push_back(make_pair(v,w));
+       adj[v].push_back(make_pair(u,w));
+
+   }
+        // {Distance,node}
+        //Declare priority queue
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+
+        //declare distace vector and initialize is to INT_MAX
+        vector<int>dist(vertices);
+        for(int i=0;i<vertices;i++) dist[i]=INT_MAX;
+
+        //set configurations for source
+        dist[source]=0;
+        pq.push({0,source});
+
+        while(!pq.empty()){
+
+            //fetch the information from the top of priority queue{distance,node}
+            int distance=pq.top().first;
+            int node=pq.top().second;
+            pq.pop();
+
+            //also traverse over the neighbours of node
+            for(auto neighbour: adj[node]){
+                //0--> [1,7] [2,1]  [adjNode,edgeWeight]
+               // [1,7] and [2,1]are neighbours
+               //adjNode=neighbour[0]  (.first in case of pairs)
+               //edgeWeight=neighbour[1]; (.second in case of pairs)
+                int edgeWeight=neighbour.second;
+                int adjNode=neighbour.first;
+
+                if(distance+edgeWeight<dist[adjNode]){
+                    //check if we got better distance (if yes then update distance)
+                    dist[adjNode]=distance+edgeWeight;
+
+                    //and push that adjNode distance and node into pq
+                    pq.push({dist[adjNode],adjNode});
+
+                }
+            }
+        }
+        return dist;
+}
