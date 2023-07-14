@@ -1,0 +1,72 @@
+#include <bits/stdc++.h> 
+bool cmp(vector<int> &a,vector<int> &b){
+  //comparison on the basis of weights
+  return a[2]<b[2];
+}
+void makeSet(vector<int> &parent,vector<int> &rank,int n){
+  for(int i=0;i<n;i++){
+    parent[i]=i;
+    rank[i]=0;
+  }
+}
+//Find parent function to find the parent of particular node
+int findParent(vector<int> &parent,int node){
+  if(parent[node]==node){
+    return node;
+  }
+  //path compression concept
+  return parent[node]=findParent(parent,parent[node]);
+}
+
+//union set function
+void UnionSet(int u,int v,vector<int>& parent,vector<int>& rank){
+   u=findParent(parent,u);
+   v=findParent(parent,v);
+
+   //check rank of u and v
+   //rank less means small tree and rank greater means large tree
+   //make smaller tree parent to large tree
+   if(rank[u]<rank[v]){
+     parent[u]=v;
+   }
+   else if(rank[v]<rank[u]){
+     parent[v]=u;
+   }
+   //rank is equal
+   else{
+     //Now here v is parent (So increase its rank by one)
+     parent[u]=v;
+     rank[v]++;
+   }
+}
+
+int kruskalMST(int n, int m, vector<vector<int>> &edges) {
+	//make parent and rank array and also initialize both 
+  vector<int>parent(n+1);
+  vector<int>rank(n+1);
+
+  makeSet(parent,rank,n);
+
+  //sort the given edges according to the weights
+  sort(edges.begin(),edges.end(),cmp);
+
+  int minWeight=0;
+
+  for(int i=0;i<m;i++){
+    int firstNode=edges[i][0];
+    int secondNode=edges[i][1];
+
+    int edgeWeight=edges[i][2];
+
+    //Now find the parent of first node and second node
+    int pfirst=findParent(parent,firstNode);
+    int psecond=findParent(parent,secondNode);
+
+    //check if both nodes belongs to same components by comparing the parents
+    if (pfirst != psecond) { // different components then apply union
+      minWeight += edgeWeight;
+      UnionSet(pfirst, psecond, parent, rank);
+    }
+  }
+  return minWeight;
+}
