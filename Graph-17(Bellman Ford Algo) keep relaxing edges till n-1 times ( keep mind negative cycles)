@@ -1,0 +1,22 @@
+#include<vector>
+int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    //declare distance array
+    vector<int> dist(n+1,1000000000);
+
+    //set source distance to be zero
+    dist[src]=0;
+    //keep in mind till equal to n-1 (vertices -1);
+
+    for(int i=1;i<=n-1;i++){
+        for(auto it:edges){
+            int u=it[0];
+            int v=it[1];
+            int w=it[2];
+            if(dist[u]!=1000000000 && dist[u]+w<dist[v]){
+                dist[v]=dist[u]+w;
+            }
+        }
+    }
+    return dist[dest];
+
+}
