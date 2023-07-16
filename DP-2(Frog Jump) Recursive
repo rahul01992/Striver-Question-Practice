@@ -1,0 +1,18 @@
+int solve(int n,vector<int> & heights){
+     if(n==0) return 0;
+
+    int left=solve(n-1,heights)+abs(heights[n]-heights[n-1]);
+    int right=INT_MAX;
+    if(n>1){
+        right=solve(n-2,heights)+abs(heights[n]-heights[n-2]);
+    }
+    return min(left,right);
+
+}
+int frogJump(int n, vector<int> &heights)
+{
+   //pass n-1 (Because we use 0th base indexing But in 
+   //question 1 base indexing is given)
+    return solve(n-1,heights);
+   
+}
