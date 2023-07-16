@@ -1,0 +1,28 @@
+#include<vector>
+int solve(vector<int> &dp,int nStairs){
+    if(nStairs==0){
+        return 1;
+    }
+    if(nStairs==1){
+        return 1;
+    }
+    if(dp[nStairs]!=-1){
+        return dp[nStairs];
+    }
+    dp[nStairs]= solve(dp,nStairs-1)+solve(dp,nStairs-2);
+    return dp[nStairs];
+   
+}
+int countDistinctWays(int nStairs) {
+   
+    // vector<int>dp(nStairs+2,-1);
+    //  return solve(dp,nStairs);
+     int prev2=1;
+     int prev=1;
+     for(int i=2;i<=nStairs;i++){
+         int curr=prev+prev2;
+         prev2=prev;
+         prev=curr;
+     }
+     return prev;
+}
