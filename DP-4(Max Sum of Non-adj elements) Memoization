@@ -1,0 +1,25 @@
+int solve(vector<int> &nums,int index,vector<int> &dp){
+    if(index==0){//means previous element of index 1 is not picked
+    //so pick this index 0
+    return nums[index];
+    }
+
+    if(index<0){
+        return 0;
+    }
+    if(dp[index]!=-1){
+        return dp[index];
+    }
+
+    int pick=nums[index]+solve(nums,index-2,dp);
+    int nonPick=solve(nums,index-1,dp);
+    return dp[index]=max(pick,nonPick);
+}
+
+int maximumNonAdjacentSum(vector<int> &nums){
+    //Using recursion
+    int n=nums.size();
+    int index=nums.size()-1;
+    vector<int>dp(n,-1);
+    return solve(nums,index,dp);
+}
