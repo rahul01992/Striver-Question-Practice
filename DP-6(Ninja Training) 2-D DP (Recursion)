@@ -1,0 +1,31 @@
+#include<vector>
+int solve(int days,int last,vector<vector<int>> &nums){
+    //base case
+    if(days==0){
+        int maxi=0;
+        for(int i=0;i<3;i++){
+          if (i != last) {
+              //simply found the max out of three tasks points of 0 day
+            maxi = max(maxi, nums[0][i]);
+          }
+        }
+        return maxi;
+    }
+
+    int maxPoints=0;
+    //Here i represented to tasks
+    for(int i=0;i<3;i++){
+        if(i!=last){
+            //pass the i as a  last because I can't do ith task in next time
+            int points=nums[days][i]+solve(days-1,i,nums);
+            maxPoints=max(maxPoints,points);
+        }
+    }
+    return maxPoints;
+}
+int ninjaTraining(int n, vector<vector<int>> &points)
+{
+    int last=3;
+    int days=points.size()-1;
+    return solve(days,last,points);
+}
