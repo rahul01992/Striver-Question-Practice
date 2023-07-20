@@ -1,0 +1,32 @@
+#include <vector> 
+#include<math.h>
+bool solve(int index,int target,int n,vector<int> & arr,vector<vector<int>>&dp){
+    // base cases
+
+    //Achived target return true
+    if(target==0) return true;
+
+    //if index is zero --> then check element at zero index if it is equal to target
+    if(index==0) return target==arr[0];
+    
+    if(dp[index][target]!=-1) return dp[index][target];
+
+    bool Nonpick=solve(index-1,target,n,arr,dp);
+
+    bool pick =0;
+
+    // before picking check if element at current index is less less target
+    if(target>=arr[index]){
+        pick=solve(index-1,target-arr[index],n,arr,dp);
+    }
+
+    return dp[index][target]=pick|Nonpick;
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+
+    //Created 2-D DP array of size index and target+1 initialize it to -1
+    vector<vector<int>> dp(n,vector<int>(k+1,-1));
+
+    //Start index to n-1
+    return solve(n-1,k,n,arr,dp);
+}
