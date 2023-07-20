@@ -1,0 +1,18 @@
+#include <bits/stdc++.h> 
+int solve(vector<vector<int>>& triangle,int n,int i,int j,vector<vector<int>> &dp){
+	//base case
+	if(i==n-1) return triangle[i][j];
+
+	if(dp[i][j]!=-1) return dp[i][j];
+
+	//No out of boundry condition happened
+	int down=triangle[i][j]+solve(triangle,n,i+1,j,dp);
+	int diagonal=triangle[i][j]+solve(triangle,n,i+1,j+1,dp);
+	return dp[i][j]=min(down,diagonal);
+}
+int minimumPathSum(vector<vector<int>>& triangle, int n){
+	int x=triangle.size();
+	int y=triangle[0].size();
+	vector<vector<int>> dp(n,vector<int>(n,-1));
+	return solve(triangle,n,0,0,dp);
+}
