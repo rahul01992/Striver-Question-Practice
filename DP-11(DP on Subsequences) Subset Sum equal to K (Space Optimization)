@@ -1,0 +1,45 @@
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+
+    //Created 2-D DP array of size index and target+1 initialize it to -1
+  //  vector<vector<bool>> dp(n,vector<bool>(k+1,0));
+
+    //Start index to n-1
+    // return solve(n-1,k,n,arr,dp);
+    
+
+
+    //Tabulation
+
+    //Handle base cases
+
+    //1st--When target is equal to zero then return true
+    // for(int i=0;i<n;i++){
+    //     dp[i][0]=true;
+    // }
+
+    vector<bool> prev(k+1,0);
+    vector<bool> curr(k+1,0);
+
+    prev[0]=true;
+    curr[0]=true;
+    
+    //2nd- When index zero and target is a[0] then mark dp as true
+    //dp[0][arr[0]]=true;
+
+    prev[arr[0]]=true;
+    //nested loop (bottom up) base case to up
+    for(int i=1;i<n;i++){
+        for(int target=1;target<=k;target++){
+            bool npick=prev[target];
+            bool pick=false;
+
+            if(target>=arr[i]){
+                pick=prev[target-arr[i]];
+            }
+            curr[target]=(pick|npick);
+        }
+        prev=curr;
+    }
+    //where I called the function in recursion
+    return prev[k];
+}
