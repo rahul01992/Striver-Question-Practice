@@ -1,0 +1,43 @@
+#include<vector>
+bool solve(vector<int> &arr,int n,int target,int index,vector<vector<int>>&dp){
+	//base case 
+
+	//if we achieved the target
+	if(target==0) return true;
+
+	//if index is equal to 0
+	if(index==0) return target==arr[0];
+
+	if(dp[index][target]!=-1) return dp[index][target];
+
+	//non pick
+	bool npick=solve(arr,n,target,index-1,dp);
+
+	bool pick=false;
+
+	//not pick if below condition is satisfied
+	if(target>=arr[index]){
+		pick=solve(arr,n,target-arr[index],index-1,dp);
+	}
+	return dp[index][target]=pick||npick;
+}
+bool canPartition(vector<int> &arr, int n)
+{
+	// find the sum of complete array (odd then not possible)
+	int sum=0;
+	
+	for(int i=0;i<n;i++){
+		sum+=arr[i];
+	}
+	int t=sum/2;
+
+	vector<vector<int>>dp(n,vector<int>(t+1,-1));
+	//odd sum condition
+	if((sum%2==0)) {
+		return solve(arr,n,sum/2,n-1,dp);
+	}
+
+    else {
+          return false;
+    }
+}
