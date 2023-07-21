@@ -1,0 +1,42 @@
+#include <bits/stdc++.h> 
+int minSubsetSumDifference(vector<int>& arr, int n)
+{
+	int totalSum=0;
+	for(int i=0;i<n;i++) totalSum+=arr[i];
+
+    //k is target in subset sum problem but in this problem totalSum is our target
+	int k=totalSum;
+
+   //Subset sum equal to k solution (tabulation)
+	vector<vector<bool>> dp(n,vector<bool>(k+1,0));
+    for(int i=0;i<n;i++){
+        dp[i][0]=true;
+    }
+    
+    if(arr[0]<=k) dp[0][arr[0]]=true;
+
+    for(int i=1;i<n;i++){
+        for(int target=1;target<=k;target++){
+            bool npick=dp[i-1][target];
+            bool pick=false;
+
+            if(target>=arr[i]){
+                pick=dp[i-1][target-arr[i]];
+            }
+            dp[i][target]=(pick|npick);
+        }
+    }
+
+	int mini=1e9;
+
+	for(int i=0;i<=totalSum/2;i++){
+		//check in last row is subset sum equal to k dp array 
+		if(dp[n-1][i]==true){
+			int s1=i;
+			int s2=totalSum-i;
+			mini=min(mini,abs(s1-s2));
+		}
+	}
+	return mini;
+}
+
