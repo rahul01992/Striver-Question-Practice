@@ -1,0 +1,28 @@
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) 
+{
+    //vector<vector<int>>dp(n,vector<int>(maxWeight+1,0));
+    //return solve(n-1,maxWeight,weight,value,dp);
+
+    //Tabulation 
+    vector<int> prev(maxWeight+1,0),curr(maxWeight+1,0);
+    //first handle base case
+    //ANALYSIS THE BASE CASE
+    for (int wt = weight[0]; wt <= maxWeight; wt++) {
+      prev[wt] = value[0];
+    }
+
+    //Nested Loops
+    for(int ind=1;ind<n;ind++){
+        for(int wt=0;wt<=maxWeight;wt++){
+            int ntake=prev[wt];
+            int take=-1e9;
+            if(weight[ind]<=wt){
+                take=value[ind]+prev[wt-weight[ind]];
+            }
+        curr[wt]=max(take,ntake);
+        }
+        prev=curr;
+    }
+    return prev[maxWeight];
+  
+}
