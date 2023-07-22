@@ -1,0 +1,39 @@
+#include <bits/stdc++.h> 
+int solve(int index,int target,vector<int> &arr,int n,
+vector<vector<int>> &dp){
+    //base case
+    //if index is zero
+    if(index==0){
+        if(target==0 && arr[0]==0) return 2;
+        if(target==0 || arr[0]==target) return 1;
+        else return 0;
+    }
+
+    if(dp[index][target]!=-1) return dp[index][target];
+
+    //pick and not pick
+    int npick=solve(index-1,target,arr,n,dp);
+    int pick=0;
+    if(target>=arr[index]){
+        pick=solve(index-1,target-arr[index],arr,n,dp);
+    }
+    return dp[index][target]=pick+npick;
+}
+int f(int n,int target,vector<int> &arr){
+    int totalSum=0;
+    for(int i=0;i<n;i++) totalSum+=arr[i];
+
+    int k=(totalSum-target)/2;
+
+    //We have to find two subsets S1 and S1 where difference id target(s1>s2)
+    //s1-s2=target-->totalSum-s2-s2=target---> totalSum-2s2=target
+    //s2=(totalSum-target)/2 (Now we have new target)
+    //Find the s2 in arr
+    //s2 should be postive and even
+    if((totalSum-target)<0 || (totalSum-target)%2!=0) return 0;
+    vector<vector<int>> dp(n,vector<int>(k+1,-1));
+    return solve(n-1,k,arr,n,dp);
+}
+int targetSum(int n, int target, vector<int>& arr) {
+    return f(n,target,arr);
+}
