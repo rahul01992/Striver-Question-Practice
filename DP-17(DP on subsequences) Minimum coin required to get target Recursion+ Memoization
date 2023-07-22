@@ -1,0 +1,38 @@
+#include <bits/stdc++.h> 
+int solve(int index,vector<int> &num,int target
+,vector<vector<int>> &dp){
+    //base cases
+
+    //when index is equal to zero
+    if(index==0){
+        if(target%num[index]==0){//if target divible by num[index] that is coin
+            return (target/num[index]);
+        }
+        else{
+            return 1e9;;
+        }
+    }
+
+    if(dp[index][target]!=-1) return dp[index][target];
+
+    //npick
+    int npick=solve(index-1,num,target,dp);
+    int pick=1e9;
+    if(target>=num[index]){
+        pick=1+solve(index,num,target-num[index],dp);
+    }
+    return dp[index][target]=min(npick,pick);
+
+}
+int minimumElements(vector<int> &num, int x)
+{
+    int n=num.size();
+    vector<vector<int>> dp(n,vector<int>(x+1,-1));
+    int ans= solve(n-1,num,x,dp);
+    if(ans==1e9){
+        return -1;
+    }
+    else{
+        return ans;
+    }
+}
