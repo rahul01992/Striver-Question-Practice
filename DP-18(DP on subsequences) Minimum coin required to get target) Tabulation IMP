@@ -1,0 +1,35 @@
+#include <bits/stdc++.h> 
+
+int minimumElements(vector<int> &num, int x)
+{
+    int n=num.size();
+    vector<vector<int>> dp(n,vector<int>(x+1,0));
+
+    //Tabulation
+
+    //Handle base case
+    for(int t=0;t<=x;t++){
+        if(t%num[0]==0) dp[0][t]= t/num[0];
+        else dp[0][t]=1e9;
+    }
+
+    //Nested loops
+    for(int index=1;index<n;index++){
+        for(int target=0;target<=x;target++){
+            int npick=dp[index-1][target];
+            int pick=1e9;
+            if(target>=num[index]){
+              pick=1+dp[index][target-num[index]];
+            }
+           dp[index][target]=min(npick,pick);
+        }
+    }
+
+    int ans= dp[n-1][x];
+    if(ans==1e9){
+        return -1;
+    }
+    else{
+        return ans;
+    }
+}
