@@ -1,0 +1,25 @@
+#include<vector>
+long solve(int index,int target,int *arr,vector<vector<long long>> &dp){
+    //base case
+    //when index is 0
+
+    // Because we find out no of ways 
+    // thats why check if index 0 coin is divible by target or not 
+    // if divisible by then I can make target otherwise I am not able to target
+    if(index==0) return target%arr[0]==0;
+
+    if(dp[index][target]!=-1) return dp[index][target];
+
+    //npick
+    long long npick=solve(index-1,target,arr,dp);
+    long long pick=0;
+    if(target>=arr[index]){
+        pick=solve(index,target-arr[index],arr,dp);
+    }
+    return dp[index][target]=pick+npick;
+}
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    vector<vector<long long>> dp(n,vector<long long>(value+1,-1));
+    return solve(n-1,value,denominations,dp);
+}
