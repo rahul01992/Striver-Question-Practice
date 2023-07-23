@@ -1,0 +1,30 @@
+int solve(int index,int N,vector<int> &price,vector<vector<int>>&dp){
+	//base case
+	if(index==0){
+		//at index 0 we have road length 1
+		//and we have remaining road length N
+		return N*price[0];
+	}
+	if(dp[index][N]!=-1) return dp[index][N];
+
+	//no-pick
+	int npick=solve(index-1,N,price,dp);
+	int pick=-1e9;
+
+	//because 0f zero base indexing 
+	int roadlength=index+1;
+	//check if road length is less then remaining road length
+	if(roadlength<=N){
+		//then remaining road length is N-roadlength
+		pick=price[index]+solve(index,N-roadlength,price,dp);
+	}
+	return dp[index][N]=max(pick,npick);
+	
+}
+int cutRod(vector<int> &price, int n)
+{
+	//n is total rod length here
+	vector<vector<int>>dp(n,vector<int>(n+1,-1));
+	return solve(n-1,n,price,dp);
+
+}
