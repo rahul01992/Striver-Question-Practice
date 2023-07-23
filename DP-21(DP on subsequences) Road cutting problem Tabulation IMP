@@ -1,0 +1,28 @@
+int cutRod(vector<int> &price, int n)
+{
+	//n is total rod length here
+	vector<vector<int>>dp(n,vector<int>(n+1,0));
+	//Tabulation
+	//Base case
+	//return solve(n-1,n,price,dp);
+	for(int i=0;i<=n;i++){
+		dp[0][i]=i*price[0];
+	}
+
+	//Nested loops
+	for(int index=1;index<n;index++){
+		for(int N=0;N<=n;N++){
+			int npick=dp[index-1][N];
+	        int pick=-1e9;
+	//because 0f zero base indexing 
+	        int roadlength=index+1;
+	//check if road length is less then remaining road length
+	        if(roadlength<=N){
+		//then remaining road length is N-roadlength
+	     	pick=price[index]+dp[index][N-roadlength];
+	    }
+         dp[index][N]=max(pick,npick);
+		}
+	}
+	return dp[n-1][n];
+}
