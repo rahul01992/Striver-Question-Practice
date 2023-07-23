@@ -1,0 +1,28 @@
+long countWaysToMakeChange(int *denominations, int n, int value)
+{
+    vector<vector<long long>> dp(n,vector<long long>(value+1,0));
+    //return solve(n-1,value,denominations,dp);
+
+    //Tabulation
+    //base case
+    for(int tar=0;tar<=value;tar++){
+        if(tar%denominations[0]==0){
+            dp[0][tar]=1;
+        }
+        else{
+            dp[0][tar]=0;
+        }
+    }
+    //Nested loops
+    for(int index=1;index<n;index++){
+        for(int target=0;target<=value;target++){
+            long long npick=dp[index-1][target];
+            long long pick=0;
+            if(target>=denominations[index]){
+            pick=dp[index][target-denominations[index]];
+            }
+           dp[index][target]=pick+npick;
+        }
+    }
+    return dp[n-1][value];
+}
