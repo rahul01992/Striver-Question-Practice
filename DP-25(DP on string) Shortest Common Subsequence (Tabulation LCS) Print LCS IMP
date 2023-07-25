@@ -1,0 +1,79 @@
+#include <bits/stdc++.h> 
+// int solve(int i,int j,string a,string b){
+// 	//base case (indexes goes to zero)
+// 	if(i==0 || j==0) return 0;
+
+// 	//match
+// 	if(a[i-1]==b[j-1]){
+// 		return 1+solve(i-1,j-1,a,b);
+// 	}
+// 	return max(solve(i-1,j,a,b),solve(i,j-1,a,b));
+// }
+string shortestSupersequence(string a, string b)
+{
+	//Make Tabulation table of longest common subsequence
+	int n=a.size();
+	int m=b.size();
+	vector<vector<int>>dp(n+1,vector<int>(m+1,0));
+	//return solve(n,m,a,b);
+	//Tabulation
+	//Handle base case
+	for(int i=0;i<=n;i++){
+		dp[i][0]=0;
+	}
+	for(int j=0;j<=m;j++){
+		dp[0][j]=0;
+	}
+
+	//Nested loops
+	for(int i=1;i<=n;i++){
+		for(int j=1;j<=m;j++){
+			if(a[i-1]==b[j-1]){
+		   dp[i][j]= 1+dp[i-1][j-1];
+	       }
+	     else dp[i][j]= max(dp[i-1][j],dp[i][j-1]);
+		}
+	}
+	// for(int i=0;i<=n;i++){
+	// 	for(int j=0;j<=m;j++){
+	// 		cout<<dp[i][j]<<" ";
+	// 	}
+	// 	cout<<endl;
+	// }
+	string ans="";
+	int i=n;
+	int j=m;
+	while(i>0 && j>0){
+		//match
+		if(a[i-1]==b[j-1]){
+			ans+=a[i-1];
+			i--;
+			j--;
+		}
+		//if not match check for maximum
+		else if(dp[i-1][j]>dp[i][j-1]){
+			//dp[i-1] is greater so go towards it
+			//When I go toward ith index means row-- of a string
+			//So store the ith index character into ans string
+			ans+=a[i-1];
+			i--;
+		}
+		else{
+			//Otherwise dp[j-1] is maximum so go towards it
+			//we cutt out the jth element from b string 
+			//So store this element in ans string
+			ans+=b[j-1];
+			j--;
+		}
+	}
+	while(i>0){
+			ans+=a[i-1];
+			i--;
+		}
+		while(j>0){
+			ans+=b[j-1];
+			j--;
+		}
+	reverse(ans.begin(),ans.end());
+	return ans;
+}
