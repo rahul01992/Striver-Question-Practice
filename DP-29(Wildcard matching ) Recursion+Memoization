@@ -1,0 +1,40 @@
+#include<bits/stdc++.h>
+bool solve(int i,int j,string &s1,string &s2,
+vector<vector<int>>&dp){
+   //base case(if strings are exhausted)
+
+   //if first and second both are exhausted at same time
+   if(i<0 && j<0) return true;
+   
+   if(i<0 && j>=0) return false;  //Still comparisons left
+
+   if(i>=0 && j<0){//all comparsions are done in s2 but s1 remaining charactaer
+   //only possible true if all the character which are left in s1 should be '*'
+   //if anyone is not '*' then return false otherwise true
+   //check remaining character in s1 string 
+   for(int var=0;var<=i;var++){
+      if(s1[var]!='*') return false;
+   }
+   return true;
+   }
+
+   if(dp[i][j]!=-1) return dp[i][j];
+   //match character or if any of this character is '?'
+   if(s1[i]==s2[j] || s1[i]=='?'){
+      return dp[i][j]=solve(i-1,j-1,s1,s2,dp);
+   }
+   if(s1[i]=='*'){
+      return dp[i][j]=solve(i-1,j,s1,s2,dp) | solve(i,j-1,s1,s2,dp);
+   }
+
+   //not match
+   return dp[i][j]=false;
+
+}
+bool wildcardMatching(string pattern, string text)
+{
+   int n=pattern.size();
+   int m=text.size();
+   vector<vector<int>>dp(n+1,vector<int>(m+1,-1));
+   return solve(n-1,m-1,pattern,text,dp);
+}
