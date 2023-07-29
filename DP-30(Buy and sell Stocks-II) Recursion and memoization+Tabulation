@@ -1,0 +1,28 @@
+#include<vector>
+long getMaximumProfit(long *values, int n)
+{ 
+    vector<vector<long>>dp(n+1,vector<long>(2,0));
+   // return solve(0,1,values,n,dp);
+   //Tabulation
+   //base case
+   dp[n][0]=0;
+   dp[n][1]=0;
+   //Nested loops
+   for(int index=n-1;index>=0;index--){
+       for(int buy=0;buy<=1;buy++){
+           long profit =0;
+    if(buy){
+        profit=max(-values[index]+dp[index+1][0],
+                                  dp[index+1][1]);
+    }
+    //Can't Buy(means sell or not sell)
+    else{
+        profit=max(values[index]+dp[index+1][1],
+                             dp[index+1][0]);
+    }
+
+     dp[index][buy]=profit;
+       }
+   }
+       return dp[0][1];
+}
