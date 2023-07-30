@@ -1,0 +1,20 @@
+int longestIncreasingSubsequence(int arr[], int n) {
+    vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+  //return solve(n-1, n, arr, n,dp);
+
+  //Tabulation
+
+  //nested loop
+  for(int index=n-1;index>=0;index--){
+      for(int prev_index=index-1;prev_index>=-1;prev_index--){
+          int take=0+dp[index+1][prev_index+1];
+            int ntake=-1e9;
+            if(prev_index==-1 || arr[index]>arr[prev_index]){
+                //curr index becomes prev_index
+                ntake=1+dp[index+1][index+1];
+            }
+             dp[index][prev_index+1]=max(take,ntake);
+      }
+  }
+      return dp[0][0];
+}
