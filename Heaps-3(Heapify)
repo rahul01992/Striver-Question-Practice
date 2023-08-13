@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+class Heap{
+    public:
+    int arr[101];
+    int size;
+    Heap(){
+        size=0;
+    }
+    void insertInHeap(int value){
+        //put the element into last index of array
+        size++;
+        int index=size;
+        arr[index]=value;
+
+        //take the last element to its correct position
+        while(index>1){
+            int parent_index=index/2;
+            if(arr[parent_index]<arr[index]){
+                swap(arr[parent_index],arr[index]);
+                index=parent_index;
+            }
+            else{
+                break;
+            }
+        }
+    }
+
+    void deleteInHeap(){
+        //swap first node to last node
+        arr[1]=arr[size];
+        size--;
+
+        int index=1;
+        int largest=index;
+        while(index<size){
+            int left_Index=2*index;
+            int right_index=2*index+1;
+
+            if(left_Index<size && arr[left_Index]>arr[index]){
+                largest=left_Index;
+            }
+
+            if(right_index<size && arr[right_index]>arr[index]){
+                largest=right_index;
+            }
+
+            if(largest==index){
+                break;
+            }
+            else{
+                swap(arr[index],arr[largest]);
+                index=largest;
+            }
+        }
+    }
+
+
+    void heapify(int i){
+        int index=i;
+        int left_index=2*i;
+        int right_index=2*i+1;
+        int largest=index;
+
+        if(left_index<=size && arr[left_index]>arr[index]){
+            largest=left_index;
+        }
+        if(right_index<=size && arr[right_index]>arr[index]){
+            largest=right_index;
+        }
+        if(index!=largest){
+            heapify(largest);
+        }
+    }
+
+
+};
+int main(){
+    Heap h;
+    h.arr[0]=-1;
+    h.insertInHeap(1);
+    h.insertInHeap(2);
+    h.insertInHeap(3);
+    h.insertInHeap(4);
+    h.insertInHeap(5);
+    h.insertInHeap(6);
+    h.insertInHeap(7);
+    cout<<"Printing the array after insert the elements in heap "<<endl;
+    for(int i=0;i<=h.size;i++){
+        cout<<h.arr[i]<<" ";
+    }
+
+    h.deleteInHeap();
+    cout<<endl;
+
+     cout<<"Printing the array after insert the elements in heap "<<endl;
+    for(int i=0;i<=h.size;i++){
+        cout<<h.arr[i]<<" ";
+    }
+
+
+return 0;
+}
