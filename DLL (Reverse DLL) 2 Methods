@@ -1,0 +1,33 @@
+#include<stack>
+Node* reverseDLL(Node* head)
+{   
+    if(head==NULL || head->next==NULL) return head;
+    Node* last=NULL;
+    Node* curr=head;
+
+    while(curr!=NULL){
+        last=curr->prev;
+        curr->prev=curr->next;
+        curr->next=last;
+        curr=curr->prev;
+    }
+    return last->prev;
+
+
+    // if(head==NULL || head->next==NULL) return head;
+
+    // stack<int>s;
+    
+    // Node* temp=head;
+    // while(temp!=NULL){
+    //     s.push(temp->data);
+    //     temp=temp->next;
+    // }  
+    // temp=head;
+    // while(temp!=NULL){
+    //     temp->data=s.top();
+    //     s.pop();
+    //     temp=temp->next;
+    // }
+    // return head;
+}
