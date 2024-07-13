@@ -1,0 +1,19 @@
+Node* oddEvenList(Node* head)
+{
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+   Node* oddT=head;
+   Node* evenT=head->next;
+   Node* evenHead=evenT;
+
+   while(evenT!=NULL && evenT->next!=NULL){
+       oddT->next = oddT->next->next;
+       oddT = oddT->next;
+     
+       evenT->next = evenT->next->next;
+       evenT = evenT->next;
+   }
+   oddT->next=evenHead;
+   return head;
+}
