@@ -1,0 +1,37 @@
+Node* reverse(Node* head){
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+    Node* temp=head;
+    Node* prev=NULL;
+    while(temp!=NULL){
+        Node* front=temp->next;
+        temp->next=prev;
+        prev=temp;
+        temp=front;
+    }
+    return prev;
+}
+Node *addOne(Node *head)
+{
+    Node* newHead1=reverse(head);
+    int carry=1;
+    Node* temp=newHead1;
+    while(temp!=NULL){
+        int sum=temp->data+carry;
+        int value=sum%10;
+        carry=sum/10;
+        temp->data=value;
+        if(carry==0){
+            Node* ans=reverse(newHead1);
+            return ans;
+        }
+        temp=temp->next;
+    }
+    if(carry==1){
+        Node* newHead2=reverse(newHead1);
+        Node* newNode=new Node(carry);
+        newNode->next=newHead2;
+        return newNode;
+    }
+}
