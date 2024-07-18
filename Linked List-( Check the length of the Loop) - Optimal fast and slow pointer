@@ -1,0 +1,22 @@
+int lengthOfLoop(Node *head) {
+    Node* fast=head;
+    Node* slow=head;
+    int cnt=1;
+
+    while(fast!=NULL && fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+        if (fast == slow) {
+          break;
+        }
+    }
+    if(fast==NULL|| fast->next==NULL){
+        return 0;
+    }
+    fast=fast->next;
+    while(fast!=slow){
+        cnt++;
+        fast=fast->next;
+    }
+    return cnt;
+}
