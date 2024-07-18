@@ -1,0 +1,20 @@
+#include<unordered_map>
+int lengthOfLoop(Node *head) {
+   unordered_map<Node*,int>mp;
+   int timer=0;
+
+   Node* temp=head;
+   while(temp!=NULL){
+       //we have currently, already visited node now
+       if(mp.find(temp)!=mp.end()){
+
+           //fetch the previous timer
+           int value=mp[temp];
+           return timer-value;
+       }
+       mp[temp]=timer;
+       timer++;
+       temp=temp->next;
+   }
+   return 0;
+}
