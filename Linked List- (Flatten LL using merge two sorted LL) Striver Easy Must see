@@ -1,0 +1,46 @@
+#include <bits/stdc++.h> 
+
+Node* mergeTwoSortedLL(Node* temp1,Node* temp2){
+    if(temp1==NULL && temp2!=NULL) return temp2;
+    if(temp1!=NULL && temp2==NULL) return temp1;
+    if(temp1==NULL && temp2==NULL) return NULL;
+
+    Node* dummyNode=new Node(-1);
+    Node* res=dummyNode;
+
+    while(temp1!=NULL && temp2!=NULL){
+        
+        if(temp1->data<temp2->data){
+            res->child=temp1;
+            res=temp1;
+            temp1=temp1->child;
+        }
+        else{
+            res->child=temp2;
+            res=temp2;
+            temp2=temp2->child;
+        }
+      // res->next=NULL;
+    }
+
+    if(temp1==NULL){
+        res->child=temp2;
+    }
+
+    if(temp2==NULL){
+        res->child=temp1;
+    }
+    return dummyNode->child;
+}
+
+Node* flattenLinkedList(Node* head) 
+{
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+
+    Node* mergedHead=flattenLinkedList(head->next);
+
+    Node* newHead= mergeTwoSortedLL(head, mergedHead);
+    return newHead;
+}
