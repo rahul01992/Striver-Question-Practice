@@ -1,0 +1,68 @@
+//Merge Sort
+Node* findMiddle(Node* head){
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+
+    Node* fast=head->next;
+    Node* slow=head;
+
+    while(fast!=NULL && fast->next!=NULL){
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    return slow;
+}
+
+Node* mergeTwoSortedLL(Node* temp1,Node* temp2){
+    if(temp1!=NULL && temp2==NULL){
+        return temp1;
+    }
+    if(temp1==NULL && temp2!=NULL){
+        return temp2;
+    }
+    if(temp1==NULL && temp2==NULL){
+        return NULL;
+    }
+    Node* dummyNode=new Node(-1);
+    Node* temp=dummyNode;
+
+    while(temp1!=NULL && temp2!=NULL){
+
+        if(temp1->data<temp2->data){
+            temp->next=temp1;
+            temp=temp1;
+            temp1=temp1->next;
+        }
+        else{
+            temp->next=temp2;
+            temp=temp2;
+            temp2=temp2->next;
+        }
+    }
+
+    if(temp1==NULL){
+        temp->next=temp2;
+    }
+    else{
+        temp->next=temp1;
+    }
+    return dummyNode->next;
+}
+Node *sortLL(Node *head)
+{
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+
+    Node* middleNode=findMiddle(head);
+    Node* leftHead=head;
+    Node* rightHead=middleNode->next;
+    middleNode->next=NULL;
+
+    leftHead=sortLL(leftHead);
+    rightHead=sortLL(rightHead);
+
+    return mergeTwoSortedLL(leftHead,rightHead);
+
+}
