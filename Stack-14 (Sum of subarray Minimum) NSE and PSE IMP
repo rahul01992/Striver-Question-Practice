@@ -1,0 +1,81 @@
+class Solution {
+public:
+vector<int> findNse(vector<int> & arr,vector<int> & nse){
+    int n=arr.size();
+    int i=n-1;
+    stack<int>s1;
+
+    while(i>=0){
+        if(s1.empty()){
+            //for holding the "-" property
+            nse[i]=n;
+            s1.push(i);
+            i--;
+        }
+        else if(arr[s1.top()]<arr[i]){
+            nse[i]=s1.top();
+            s1.push(i);
+            i--;
+        }
+        else{
+            //remove all the greater element's index inside the stack
+            while(!s1.empty() && arr[s1.top()]>=arr[i]){
+                s1.pop();
+            }
+        }
+    }
+    return nse;
+
+}
+
+
+vector<int> findPse(vector<int> & arr,vector<int> & pse){
+    int n=arr.size();
+    int i=0;
+    stack<int>st;
+
+    while(i<n){
+        if(st.empty()){
+            pse[i]=-1;
+            st.push(i);
+            i++;
+        }
+        else if(arr[st.top()]<=arr[i]){
+            pse[i]=st.top();
+            st.push(i);
+            i++;
+        }
+        else{
+            //remove all the greater element's index from the stack
+            while(!st.empty() && arr[st.top()]>arr[i]){
+                st.pop();
+            }
+        }
+    }
+    return pse;
+}
+
+    int sumSubarrayMins(vector<int>& arr) {
+        int n=arr.size();
+
+        vector<int>nse(n);
+        vector<int>pse(n);
+
+        int total=0;
+        int mod=1e9+7;
+
+        nse=findNse(arr,nse);
+        pse=findPse(arr,pse);
+
+        for(long i=0;i<n;i++){
+            
+            int left=i-pse[i];
+            int right=nse[i]-i;
+
+            long result=((((i-pse[i])* (nse[i]-i))%mod)*arr[i])%mod;
+            total=(total+result)%mod;
+            
+        }
+        return total;
+    }
+};
